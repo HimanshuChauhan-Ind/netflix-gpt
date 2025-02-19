@@ -15,7 +15,7 @@ const validateForm = (email, password) => {
     return "Password is not valid";
   }
 
-  return true;
+  return null;
 };
 
 export default validateForm;

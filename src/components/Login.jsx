@@ -2,6 +2,11 @@ import { useRef, useState } from "react";
 import { BG_URL } from "../assets/constants";
 import Header from "./Header";
 import validateForm from "../assets/validateForm";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
+import { auth } from "../assets/firebase";
 
 const Login = () => {
   const [signedUp, setSignedUp] = useState(true);
@@ -21,6 +26,42 @@ const Login = () => {
       password.current.value
     );
     setValidationMsg(validation);
+
+    if (validation) return;
+
+    if (!signedUp) {
+      createUserWithEmailAndPassword(
+        auth,
+        email.current.value,
+        password.current.value
+      )
+        .then((userCredential) => {
+          // Signed up
+          const user = userCredential.user;
+          console.log(user);
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          setValidationMsg(errorCode + " - " + errorMessage);
+        });
+    } else {
+      signInWithEmailAndPassword(
+        auth,
+        email.current.value,
+        password.current.value
+      )
+        .then((userCredential) => {
+          // Signed in
+          const user = userCredential.user;
+          console.log(user);
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          setValidationMsg(errorCode + " - " + errorMessage);
+        });
+    }
   };
 
   return (
