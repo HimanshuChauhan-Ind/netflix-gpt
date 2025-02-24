@@ -5,22 +5,27 @@ import validateForm from "../assets/validateForm";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  updateProfile,
 } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
 import { auth } from "../assets/firebase";
+import { useDispatch } from "react-redux";
+import { addUser } from "../assets/userSlice";
 
 const Login = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [signedUp, setSignedUp] = useState(true);
   const [validationMsg, setValidationMsg] = useState(null);
   const email = useRef(null);
   const password = useRef(null);
+  const fullName = useRef(null);
 
   const toggleSignUp = () => {
     setSignedUp(!signedUp);
   };
 
   const handleSignup = () => {
-    console.log(email.current.value);
-    console.log(password.current.value);
     const validation = validateForm(
       email.current.value,
       password.current.value
@@ -38,7 +43,19 @@ const Login = () => {
         .then((userCredential) => {
           // Signed up
           const user = userCredential.user;
-          console.log(user);
+
+          updateProfile(auth.currentUser, {
+            displayName: fullName.current.value,
+          })
+            .then(() => {
+              const { uid, email, displayName } = user;
+              dispatch(addUser({ uid, email, displayName }));
+            })
+            .catch((error) => {
+              setValidationMsg(error.message);
+            });
+
+          navigate("/browse");
         })
         .catch((error) => {
           const errorCode = error.code;
@@ -54,7 +71,7 @@ const Login = () => {
         .then((userCredential) => {
           // Signed in
           const user = userCredential.user;
-          console.log(user);
+          navigate("/browse");
         })
         .catch((error) => {
           const errorCode = error.code;
@@ -79,6 +96,7 @@ const Login = () => {
           <form onSubmit={(e) => e.preventDefault()}>
             {!signedUp && (
               <input
+                ref={fullName}
                 className="border border-b-white w-full p-2 my-4 rounded-md"
                 type="text"
                 name="fullName"
