@@ -13,7 +13,6 @@ const useGetMovieData = () => {
     );
     const data = await response.json();
     dispatch(addMovies(data.results));
-    console.log(data.results);
   };
 
   useEffect(() => {

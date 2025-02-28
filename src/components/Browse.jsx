@@ -1,5 +1,6 @@
 import useGetMovieData from "../assets/useGetMovieData";
 import Header from "./Header";
+import MainContent from "./MainContent";
 
 const Browse = () => {
   useGetMovieData();
@@ -7,6 +8,7 @@ const Browse = () => {
   return (
     <div>
       <Header />
+      <MainContent />
     </div>
   );
 };
