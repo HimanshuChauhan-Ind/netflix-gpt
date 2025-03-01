@@ -1,18 +1,18 @@
 import { useEffect } from "react";
 import { TMDB_API_OPTIONS } from "../assets/constants";
-import { addMovies } from "../assets/movieSlice";
+import { addTopRatedMovies } from "../assets/movieSlice";
 import { useDispatch } from "react-redux";
 
-const useGetMovieData = () => {
+const useGetTopRatedMovies = () => {
   const dispatch = useDispatch();
 
   const movies_data = async function () {
     const response = await fetch(
-      `https://api.themoviedb.org/3/movie/now_playing?api_key=${TMDB_API_OPTIONS.headers.Authorization}&language=en-US&page=1`,
+      `https://api.themoviedb.org/3/movie/top_rated?api_key=${TMDB_API_OPTIONS.headers.Authorization}&language=en-US&page=1`,
       TMDB_API_OPTIONS
     );
     const data = await response.json();
-    dispatch(addMovies(data.results));
+    dispatch(addTopRatedMovies(data.results));
   };
 
   useEffect(() => {
@@ -20,4 +20,4 @@ const useGetMovieData = () => {
   }, []);
 };
 
-export default useGetMovieData;
+export default useGetTopRatedMovies;

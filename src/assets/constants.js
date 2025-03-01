@@ -11,3 +11,5 @@ export const TMDB_API_OPTIONS = {
     Authorization: import.meta.env.VITE_TMDB_AUTH,
   },
 };
+
+export const TMDB_POSTER_URL = "https://image.tmdb.org/t/p/w200/";

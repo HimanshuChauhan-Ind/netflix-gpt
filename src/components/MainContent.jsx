@@ -9,7 +9,7 @@ const MainContent = () => {
   const { id, original_title, overview } = movie[0];
 
   return (
-    <div>
+    <div className="relative">
       <MainMovie title={original_title} overview={overview} />
       <MovieVideo movieId={id} />
     </div>
