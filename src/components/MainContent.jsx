@@ -1,5 +1,5 @@
 import MainMovie from "./MainMovie";
-import MovieList from "./MovieList";
+import MovieVideo from "./MovieVideo";
 import { useSelector } from "react-redux";
 
 const MainContent = () => {
@@ -8,12 +8,10 @@ const MainContent = () => {
 
   const { id, original_title, overview } = movie[0];
 
-  console.log(movie[0]);
-
   return (
     <div>
-      <MainMovie movieId={id} title={original_title} overview={overview} />
-      <MovieList />
+      <MainMovie title={original_title} overview={overview} />
+      <MovieVideo movieId={id} />
     </div>
   );
 };
