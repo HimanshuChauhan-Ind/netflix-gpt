@@ -13,3 +13,9 @@ export const TMDB_API_OPTIONS = {
 };
 
 export const TMDB_POSTER_URL = "https://image.tmdb.org/t/p/w200/";
+
+export const SUPPORTED_LANGUAGES = [
+  { value: "en", label: "English" },
+  { value: "es", label: "Spanish" },
+  { value: "hi", label: "Hindi" },
+];
