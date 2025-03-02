@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { addUser, removeUser } from "../assets/userSlice";
+import { setGPTSeatch } from "../assets/gptSlice";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -26,6 +27,10 @@ const Header = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const handleSearch = () => {
+    dispatch(setGPTSeatch());
+  };
+
   const handleSignOut = () => {
     signOut(auth)
       .then(() => {
@@ -41,12 +46,20 @@ const Header = () => {
       <img src={LOGO_URL} alt="logo" />
       <div>
         {user.value && (
-          <button
-            onClick={handleSignOut}
-            className="p-2  rounded-md m-3 bg-red-600 text-white cursor-pointer"
-          >
-            Sign Out
-          </button>
+          <>
+            <button
+              onClick={handleSearch}
+              className="p-2  rounded-md m-3 bg-purple-600 text-white cursor-pointer"
+            >
+              GPT Search
+            </button>
+            <button
+              onClick={handleSignOut}
+              className="p-2  rounded-md m-3 bg-red-600 text-white cursor-pointer"
+            >
+              Sign Out
+            </button>
+          </>
         )}
       </div>
     </div>
