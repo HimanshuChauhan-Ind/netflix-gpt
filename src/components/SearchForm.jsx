@@ -3,15 +3,36 @@ import languageConstants from "../assets/languageConstants";
 import useGetMovieRecommendation from "../assets/useGetMovieRecommendation";
 import { useRef } from "react";
 import { setGPTMovies } from "../assets/gptSlice";
+import { TMDB_API_OPTIONS } from "../assets/constants";
 
 const SearchForm = () => {
   const dispatch = useDispatch();
   const language = useSelector((state) => state.config.lang);
   const moviePrompt = useRef(null);
 
+  const tmdbMovieSearch = async (movie) => {
+    const data = await fetch(
+      "https://api.themoviedb.org/3/search/movie?query=" +
+        movie +
+        "&include_adult=false&language=en-US&page=1",
+      TMDB_API_OPTIONS
+    );
+    const response = await data.json();
+
+    return response.results;
+  };
+
   const handleSearch = async () => {
     const movies = await useGetMovieRecommendation(moviePrompt.current.value);
-    dispatch(setGPTMovies(movies));
+
+    const movieArray = movies.split(",");
+
+    const moviePromises = movieArray.map((movie) => tmdbMovieSearch(movie));
+
+    const movieResults = await Promise.all(moviePromises);
+
+    console.log(movieResults);
+    dispatch(setGPTMovies({ movieNames: movieArray, movieResults }));
   };
 
   return (

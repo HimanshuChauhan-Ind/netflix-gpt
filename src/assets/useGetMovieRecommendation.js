@@ -7,7 +7,7 @@ const useGetMovieRecommendation = async (moviePrompt) => {
   const prompt =
     "Give me 5 movie recommendations based on: " +
     moviePrompt +
-    ". Give it in array format [movie1,movie2,movie3,movie4,movie5] and no other text. ";
+    ". Give it in string format movie1,movie2,movie3,movie4,movie5 and no other text. ";
 
   const result = await model.generateContent(prompt);
   return result.response.text();
